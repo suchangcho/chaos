@@ -21,6 +21,7 @@ public class BattleSystem : MonoBehaviour
 
 	public BattleHUD playerHUD;
 	public BattleHUD enemyHUD;
+	public Animator animator;
 
 	public BattleState state;
 
@@ -29,13 +30,19 @@ public class BattleSystem : MonoBehaviour
 	{
 		state = BattleState.START;
 		StartCoroutine(SetupBattle());
+		animator = GetComponent<Animator>();
+
 	}
 
 	IEnumerator SetupBattle()
 	{
+
+
 		GameObject playerGO = Instantiate(playerPrefab, playerBattleStation); //오브젝트 복사하고 playerGO에 대입
 		playerGO.transform.position = playerBattleStation.transform.position;//playerGO위치를 플레이어배틀에 대입
+		playerGO.transform.localScale = new Vector2(4, 4);
 		playerUnit = playerGO.GetComponent<Unit>();
+
 
 		GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
 		enemyGO.transform.position = enemyBattleStation.transform.position;
