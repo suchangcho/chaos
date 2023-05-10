@@ -22,6 +22,8 @@ public class BattleSystem : MonoBehaviour
 	public BattleHUD playerHUD;
 	public BattleHUD enemyHUD;
 	public Animator animator;
+	public GameController GC;
+
 
 	public BattleState state;
 
@@ -31,12 +33,11 @@ public class BattleSystem : MonoBehaviour
 		state = BattleState.START;
 		StartCoroutine(SetupBattle());
 		animator = GetComponent<Animator>();
-
+		GC = GameObject.Find("Player").GetComponent<GameController>();
 	}
 
 	IEnumerator SetupBattle()
 	{
-
 
 		GameObject playerGO = Instantiate(playerPrefab, playerBattleStation); //오브젝트 복사하고 playerGO에 대입
 		playerGO.transform.position = playerBattleStation.transform.position;//playerGO위치를 플레이어배틀에 대입
@@ -46,7 +47,7 @@ public class BattleSystem : MonoBehaviour
 
 		GameObject enemyGO = Instantiate(enemyPrefab, enemyBattleStation);
 		enemyGO.transform.position = enemyBattleStation.transform.position;
-		enemyGO.transform.localScale = new Vector2(-1, 1);
+		enemyGO.transform.localScale = new Vector2(4, 2.3f);
 		enemyUnit = enemyGO.GetComponent<Unit>();
 
 		dialogueText.text = "A wild " + enemyUnit.unitName + " approaches...";
@@ -111,10 +112,12 @@ public class BattleSystem : MonoBehaviour
 		if (state == BattleState.WON)
 		{
 			dialogueText.text = "You won the battle!";
+			GC.EndBattle();
 		}
 		else if (state == BattleState.LOST)
 		{
 			dialogueText.text = "You were defeated.";
+			GC.EndBattle();
 		}
 	}
 
